@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  sql-server:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "dzelal.123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+
+  web-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - sql-server
+    ports:
+      - "8080:80"
