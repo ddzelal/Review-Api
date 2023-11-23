@@ -22,11 +22,11 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
-    db.Database.Migrate();
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+//     db.Database.Migrate();
+// }
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
     SeedData(app);

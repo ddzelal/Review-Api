@@ -21,7 +21,6 @@ namespace web_app1.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
         public IActionResult GetPokemons()
         {
-            Console.WriteLine("Tu sam ne  boj se");
             var pokemons = _pokemonRepository.GetPokemons();
             if (!ModelState.IsValid)
             {
@@ -30,11 +29,37 @@ namespace web_app1.Controllers
             return Ok(pokemons);
         }
 
-        [HttpGet("test")]
-        public IActionResult Test()
+        [HttpGet("{pokeId}")]
+        [ProducesResponseType(200, Type = typeof(Pokemon))]
+        [ProducesResponseType(400)]
+        public IActionResult GetPokemons(int pokeId)
         {
-            return Ok("Test successful");
+            if (!_pokemonRepository.PokemonExists(pokeId))
+                return NotFound();
+
+            var pokemon = _pokemonRepository.GetPokemon(pokeId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(pokemon);
         }
 
+        [HttpGet("{pokeId}/rating")]
+        [ProducesResponseType(200, Type = typeof(decimal))]
+        [ProducesResponseType(400)]
+
+        public IActionResult GetPokemonRating(int pokeId)
+        {
+            if (!_pokemonRepository.PokemonExists(pokeId))
+                return NotFound();
+
+            var rating = _pokemonRepository.GetPokemonRating(pokeId);
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(rating);
+
+        }
     }
 }
