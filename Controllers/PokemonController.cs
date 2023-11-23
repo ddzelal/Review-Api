@@ -36,7 +36,7 @@ namespace web_app1.Controllers
         [HttpGet("{pokeId}")]
         [ProducesResponseType(200, Type = typeof(Pokemon))]
         [ProducesResponseType(400)]
-        public IActionResult GetPokemons(int pokeId)
+        public IActionResult GetPokemon(int pokeId)
         {
             if (!_pokemonRepository.PokemonExists(pokeId))
                 return NotFound();

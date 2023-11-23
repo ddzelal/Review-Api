@@ -13,6 +13,7 @@ namespace web_app1.Helper
         public MappingProfiles()
         {
             CreateMap<Pokemon, PokemonDto>();
+            CreateMap<Category, CategoryDto>();
         }
 
     }
