@@ -18,6 +18,7 @@ namespace web_app1.Helper
             CreateMap<Owner, OwnerDto>();
             CreateMap<Review, ReviewDto>();
             CreateMap<Reviewer, ReviewerDto>();
+            CreateMap<PokemonDto, Pokemon>();
         }
 
     }

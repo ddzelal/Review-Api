@@ -13,5 +13,9 @@ namespace web_app1.Interfaces
         Pokemon GetPokemon(string name);
         decimal GetPokemonRating(int id);
         bool PokemonExists(int pokeId);
+        bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon);
+        bool Save();
+        Pokemon GetPokemonTrimToUpper(string name);
+
     }
 }
