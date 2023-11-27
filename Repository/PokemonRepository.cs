@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using web_app1.Data;
+using web_app1.Dto;
 using web_app1.Interfaces;
 using web_app1.Models;
 
@@ -19,12 +20,14 @@ namespace web_app1.Repository
         public bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon)
         {
             var pokemonOwnerEntity = _context.Owners.Where(a => a.Id == ownerId).FirstOrDefault();
-            var category = _context.Categories.Where(c => c.Id == categoryId).FirstOrDefault();
+            var category = _context.Categories.Where(a => a.Id == categoryId).FirstOrDefault();
+
             var pokemonOwner = new PokemonOwner()
             {
                 Owner = pokemonOwnerEntity,
                 Pokemon = pokemon,
             };
+
             _context.Add(pokemonOwner);
 
             var pokemonCategory = new PokemonCategory()
@@ -34,8 +37,15 @@ namespace web_app1.Repository
             };
 
             _context.Add(pokemonCategory);
+
             _context.Add(pokemon);
 
+            return Save();
+        }
+
+        public bool DeletePokemon(Pokemon pokemon)
+        {
+            _context.Remove(pokemon);
             return Save();
         }
 
@@ -49,9 +59,10 @@ namespace web_app1.Repository
             return _context.Pokemon.Where(p => p.Name == name).FirstOrDefault();
         }
 
-        public decimal GetPokemonRating(int id)
+        public decimal GetPokemonRating(int pokeId)
         {
-            var review = _context.Reviews.Where(p => p.Pokemon.Id == id);
+            var review = _context.Reviews.Where(p => p.Pokemon.Id == pokeId);
+
             if (review.Count() <= 0)
                 return 0;
 
@@ -63,11 +74,10 @@ namespace web_app1.Repository
             return _context.Pokemon.OrderBy(p => p.Id).ToList();
         }
 
-        public Pokemon GetPokemonTrimToUpper(string name)
+        public Pokemon GetPokemonTrimToUpper(PokemonDto pokemonCreate)
         {
-            return _context.Pokemon
-           .Where(p => p.Name.Trim().ToUpper() == name.Trim().ToUpper())
-           .FirstOrDefault();
+            return GetPokemons().Where(c => c.Name.Trim().ToUpper() == pokemonCreate.Name.TrimEnd().ToUpper())
+                .FirstOrDefault();
         }
 
         public bool PokemonExists(int pokeId)
@@ -79,6 +89,12 @@ namespace web_app1.Repository
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public bool UpdatePokemon(int ownerId, int categoryId, Pokemon pokemon)
+        {
+            _context.Update(pokemon);
+            return Save();
         }
     }
 }

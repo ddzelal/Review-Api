@@ -18,14 +18,26 @@ namespace web_app1.Repository
 
         }
 
+        public bool CreateReviewer(Reviewer reviewer)
+        {
+            _context.Add(reviewer);
+            return Save();
+        }
+
+        public bool DeleteReviewer(Reviewer reviewer)
+        {
+            _context.Remove(reviewer);
+            return Save();
+        }
+
+        public Reviewer GetReviewer(int reviewerId)
+        {
+            return _context.Reviewers.Where(r => r.Id == reviewerId).Include(e => e.Reviews).FirstOrDefault();
+        }
+
         public ICollection<Reviewer> GetReviewers()
         {
             return _context.Reviewers.ToList();
-        }
-
-        public Reviewer GetReviewer(int reviewId)
-        {
-            return _context.Reviewers.Where(r => r.Id == reviewId).Include(r => r.Reviews).FirstOrDefault();
         }
 
         public ICollection<Review> GetReviewsByReviewer(int reviewerId)
@@ -38,16 +50,16 @@ namespace web_app1.Repository
             return _context.Reviewers.Any(r => r.Id == reviewerId);
         }
 
-        public bool CreateReviewer(Reviewer reviewer)
-        {
-            _context.Add(reviewer);
-            return Save();
-        }
-
         public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public bool UpdateReviewer(Reviewer reviewer)
+        {
+            _context.Update(reviewer);
+            return Save();
         }
     }
 }

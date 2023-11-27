@@ -16,17 +16,27 @@ namespace web_app1.Repository
             _context = context;
 
         }
-
         public bool CreateReview(Review review)
         {
             _context.Add(review);
             return Save();
         }
 
-
-        public Review GetReview(int id)
+        public bool DeleteReview(Review review)
         {
-            return _context.Reviews.Where(r => r.Id == id).FirstOrDefault();
+            _context.Remove(review);
+            return Save();
+        }
+
+        public bool DeleteReviews(List<Review> reviews)
+        {
+            _context.RemoveRange(reviews);
+            return Save();
+        }
+
+        public Review GetReview(int reviewId)
+        {
+            return _context.Reviews.Where(r => r.Id == reviewId).FirstOrDefault();
         }
 
         public ICollection<Review> GetReviews()
@@ -42,13 +52,18 @@ namespace web_app1.Repository
         public bool ReviewExists(int reviewId)
         {
             return _context.Reviews.Any(r => r.Id == reviewId);
-
         }
 
         public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+
+        public bool UpdateReview(Review review)
+        {
+            _context.Update(review);
+            return Save();
         }
     }
 }
