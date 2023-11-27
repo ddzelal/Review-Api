@@ -161,7 +161,6 @@ namespace web_app1.Controllers
             return NoContent();
         }
 
-        // Added missing delete range of reviews by a reviewer **>CK
         [HttpDelete("/DeleteReviewsByReviewer/{reviewerId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
