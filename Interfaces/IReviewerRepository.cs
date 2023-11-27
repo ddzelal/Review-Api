@@ -12,5 +12,8 @@ namespace web_app1.Interfaces
         Reviewer GetReviewer(int reviewId);
         ICollection<Review> GetReviewsByReviewer(int reviewerId);
         bool ReviewerExists(int reviewerId);
+        bool CreateReviewer(Reviewer reviewer);
+        bool Save();
+
     }
 }

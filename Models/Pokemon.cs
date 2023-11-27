@@ -14,4 +14,8 @@ namespace web_app1.Models
         public ICollection<PokemonOwner> PokemonOwners { get; set; }
         public ICollection<PokemonCategory> PokemonCategories { get; set; }
     }
+
 }
+
+
+
